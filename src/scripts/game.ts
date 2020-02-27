@@ -27,10 +27,7 @@ const config: GameConfig = {
 };
 
 
-let game = new Phaser.Game(config);
-/* 
+
 window.addEventListener('load', () => {
     window['game'] = new Phaser.Game(config);
 });
-
-*/
