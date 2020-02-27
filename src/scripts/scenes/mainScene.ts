@@ -1,18 +1,23 @@
 import ExampleObject from '../objects/exampleObject';
+import TileSprite from '../objects/myTileSprite';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
   private ship1: ExampleObject;
   private ship2: ExampleObject;
   private ship3: ExampleObject;
+  private background: TileSprite;
+  
 
   constructor() {
     super({ key: 'MainScene' });
   }
 
   create() {
+    
+
     this.exampleObject = new ExampleObject(this, 0, 0);
-    this.add.image(this.scale.width/2, this.scale.height/2,"background");
+    this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height,"background");
     
 
     this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
@@ -39,5 +44,7 @@ export default class MainScene extends Phaser.Scene {
     this.moveShip(this.ship1, 1);
     this.moveShip(this.ship2, 2);
     this.moveShip(this.ship3, 3);
+
+    this.background.tilePositionY -= 0.5;
   }
 }
