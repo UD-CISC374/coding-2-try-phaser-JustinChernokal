@@ -12,7 +12,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coding-2-try-phaser-justinchernokal/devgen.vendors.a047ee0740c7d21714d9.bundle.js"
   },
   {
-    "revision": "605a8dee0a8dd9e1784714a5a91138f9",
+    "revision": "2ea3c4e5fb4be2b0c18141e1d0cd4094",
     "url": "/coding-2-try-phaser-justinchernokal/devindex.html"
   },
   {
