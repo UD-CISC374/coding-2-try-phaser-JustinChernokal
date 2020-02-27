@@ -17,7 +17,7 @@ export default class MainScene extends Phaser.Scene {
     
 
     this.exampleObject = new ExampleObject(this, 0, 0);
-    this.background = this.add.tileSprite(0, 0, this.scale.width, this.scale.height,"background");
+    this.background = this.add.tileSprite(0, 0, this.scale.width/2, this.scale.height/2,"background");
     
 
     this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
