@@ -4,15 +4,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/coding-2-try-phaser-justinchernokal/devassets/citations.md"
   },
   {
-    "revision": "2d32f2c024d43d257c5e",
-    "url": "/coding-2-try-phaser-justinchernokal/devgen.main.7946752b0fde6cda1b2f.bundle.js"
+    "revision": "fdd91ecde043d79eafb2",
+    "url": "/coding-2-try-phaser-justinchernokal/devgen.main.daa6f42b02a167ad3b4f.bundle.js"
   },
   {
     "revision": "201b65bee9df6270f739",
     "url": "/coding-2-try-phaser-justinchernokal/devgen.vendors.a047ee0740c7d21714d9.bundle.js"
   },
   {
-    "revision": "9b4469b60ccf1bc98216c3e973e7f4ab",
+    "revision": "8faee14716a2210856c57fcfb00acffe",
     "url": "/coding-2-try-phaser-justinchernokal/devindex.html"
   },
   {
