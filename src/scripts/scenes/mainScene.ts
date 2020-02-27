@@ -9,7 +9,7 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     this.exampleObject = new ExampleObject(this, 0, 0);
-    this.add.image(0,0,"background");
+    this.add.image(this.scale.width, this.scale.height,"background");
     //image.setOrigin(0,0);
 
     this.add.image(this.scale.width/2 - 50, this.scale.height/2, "ship");
@@ -17,6 +17,10 @@ export default class MainScene extends Phaser.Scene {
     this.add.image(this.scale.width/2 + 50, this.scale.height/2, "ship3");
 
     this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
+  }
+
+  moveShip(ship, speed) {
+    ship.y += speed;
   }
 
   update() {
