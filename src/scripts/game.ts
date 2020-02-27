@@ -13,8 +13,8 @@ const config: GameConfig = {
         parent: 'phaser-game',
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: DEFAULT_WIDTH,
-        height: DEFAULT_HEIGHT
+        width: 200,
+        height: 900
     },
     scene: [PreloadScene, MainScene],
     physics: {
@@ -26,8 +26,11 @@ const config: GameConfig = {
     }
 };
 
+
+let game = new Phaser.Game(config);
+/* 
 window.addEventListener('load', () => {
     window['game'] = new Phaser.Game(config);
 });
 
-//
+*/
