@@ -13,7 +13,7 @@ export default class MainScene extends Phaser.Scene {
   create() {
     this.exampleObject = new ExampleObject(this, 0, 0);
     this.add.image(this.scale.width/2, this.scale.height/2,"background");
-    //image.setOrigin(0,0);
+    
 
     this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
     this.ship2 = this.add.sprite(this.scale.width/2, this.scale.height/2, "ship2");
@@ -24,6 +24,15 @@ export default class MainScene extends Phaser.Scene {
 
   moveShip(ship, speed) {
     ship.y += speed;
+    if (ship.y > this.scale.height) {
+      this.resetShipPos(ship);
+    }
+  }
+
+  resetShipPos(ship){
+    ship.y = 0;
+    var randomX = Phaser.Math.Between(0, this.scale.width);
+    ship.x = randomX;
   }
 
   update() {
