@@ -9,7 +9,7 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     this.exampleObject = new ExampleObject(this, 0, 0);
-    this.add.image(this.scale.width, this.scale.height,"background");
+    this.add.image(this.scale.width/2, this.scale.height/2,"background");
     //image.setOrigin(0,0);
 
     this.add.image(this.scale.width/2 - 50, this.scale.height/2, "ship");
