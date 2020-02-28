@@ -28,36 +28,36 @@ export default class MainScene extends Phaser.Scene {
 
     this.anims.create({
       key: "ship1_anim",
-      frames: this.anims.generateFrameNumbers("ship", { start: 0, end: -1}),
+      frames: this.anims.generateFrameNumbers("ship", { start: 0, end: 1}),
       frameRate: 20,
       repeat: -1
     });
 
     this.anims.create({
       key: "ship2_anim",
-      frames: this.anims.generateFrameNumbers("ship2", { start: 0, end: -1}),
+      frames: this.anims.generateFrameNumbers("ship2", { start: 0, end: 1}),
       frameRate: 20,
       repeat: -1
     });
 
     this.anims.create({
       key: "ship3_anim",
-      frames: this.anims.generateFrameNumbers("ship3", { start: 0, end: -1}),
+      frames: this.anims.generateFrameNumbers("ship3", { start: 0, end: 1}),
       frameRate: 20,
       repeat: -1
     });
 
     this.anims.create({
       key: "explode",
-      frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: -1}),
+      frames: this.anims.generateFrameNumbers("explosion", { start: 0, end: 4}),
       frameRate: 20,
       repeat: 0,
       hideOnComplete: true
     });
 
-    this.ship1.play("ship1_anim");
-    this.ship2.play("ship2_anim");
-    this.ship3.play("ship3_anim");
+    this.ship1.play("ship1_anim", false, 0);
+    this.ship2.play("ship2_anim", false, 0);
+    this.ship3.play("ship3_anim", false, 0);
 
 
     this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
