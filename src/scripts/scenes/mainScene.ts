@@ -13,7 +13,10 @@ export default class MainScene extends Phaser.Scene {
   gamesSettings = {
     playerSpeed: 200,
   };
-  //powerUps: Phaser.GameObjects.Sprite;
+  powerUps: Phaser.Physics.Arcade.Group;
+  enemies: Phaser.Physics.Arcade.Group;
+  score: integer;
+  scorelabel: Phaser.GameObjects.BitmapText;
   //private explosion: ExampleObject;
   private background: TileSprite;
   
@@ -26,12 +29,13 @@ export default class MainScene extends Phaser.Scene {
     
 
     this.exampleObject = new ExampleObject(this, 0, 0);
-    this.background = this.add.tileSprite(0, 0, this.scale.width*2, this.scale.height*2,"background");
+    this.background = this.add.tileSprite(0, 0, this.scale.width*2.1, this.scale.height*2 + 600  ,"background");
     
 
-    this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
-    this.ship2 = this.add.sprite(this.scale.width/2, this.scale.height/2, "ship2");
-    this.ship3 = this.add.sprite(this.scale.width/2 + 50, this.scale.height/2, "ship3");
+    this.ship1 = this.physics.add.sprite(this.scale.width/2 - 50, this.scale.height, "ship");
+    this.ship2 = this.physics.add.sprite(this.scale.width/2, this.scale.height, "ship2");
+    this.ship3 = this.physics.add.sprite(this.scale.width/2 + 50, this.scale.height, "ship3");
+    
     //this.explosion = this.add.sprite(0, 0, "explosion");
 
 
@@ -77,19 +81,20 @@ export default class MainScene extends Phaser.Scene {
     //this.ship2.play("ship2_anim");
     //this.ship3.play("ship3_anim");
 
-
-    this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
+    //TEXT-scorelabel
+    //this.scorelabel = this.add.bitmapText(10, 5, "myfont", "score ", 16);
+    this.add.text(125, 5, "Avoid Falling Monsters!", {font: "15px Arial", fill: "red"});
   
     
     //Powerups
     this.physics.world.setBoundsCollision();
 
-    //this.powerUps = this.physics.add.group();
+    this.powerUps = this.physics.add.group();
 
-    var maxObjects = 4;
+    var maxObjects = -1;
     for (var i =0; i <= maxObjects; i++) {
       var powerUp = this.physics.add.sprite(16,16,"power-up");
-     //this.powerUps.add(powerUp);
+      this.powerUps.add(powerUp);
         powerUp.setRandomPosition(0, 0, this.game.scale.width, this.game.scale.height);
     
       powerUp.setVelocity(100,100);
@@ -100,22 +105,50 @@ export default class MainScene extends Phaser.Scene {
 
   
     //Player
-    //this.player = this.physics.add.sprite(this.scale.width/2 - 8, this.scale.height - 64, "player");
-    this.player = this.physics.add.sprite(8,8,"player");
+    this.player = this.physics.add.sprite(this.scale.width/2 - 8, this.scale.height - 64, "player");
     //this.player.play("thrust");
     this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     
     this.player.setCollideWorldBounds(true);
 
-  
+  //Collision
+
+  this.physics.add.collider(this.player, this.ship1, 
+    function(player, ship1){
+      player.destroy();
+  });
+  this.physics.add.collider(this.player, this.ship2, 
+    function(player, ship2){
+      player.destroy();
+  });
+  this.physics.add.collider(this.player, this.ship3, 
+    function(player, ship3){
+      player.destroy();
+  });
+  this.physics.add.collider(this.ship3, this.powerUps);
+  this.physics.add.collider(this.ship1, this.powerUps);
+  this.physics.add.collider(this.ship2, this.powerUps);
+  //this.physics.add.collider(this.powerUps, this.player);
+
+
+  this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp);
+
   
   }
+
+  pickPowerUp (player, powerUp){ 
+    //this.resetPowerups(powerUp);
+    powerUp.disableBody(true, true);
+    this.score += 15;
+    
+    }
 
   moveShip(ship, speed) {
     ship.y += speed;
     if (ship.y > this.scale.height) {
       this.resetShipPos(ship);
+      ship.setVelocityY(0);
     }
   }
 
@@ -125,14 +158,21 @@ export default class MainScene extends Phaser.Scene {
     ship.x = randomX;
   }
 
+  resetPowerups(powerUp){
+    powerUp.y = 0;
+    var randomX = Phaser.Math.Between(0, this.scale.width);
+    powerUp.x = randomX;
+  }
+
   update() {
     this.moveShip(this.ship1, 1);
     this.moveShip(this.ship2, 2);
     this.moveShip(this.ship3, 3);
 
-    this.background.tilePositionY -= 0.5;
+    this.background.tilePositionX -= 0.5;
 
     this.movePlayerManager();
+
   }
 
   movePlayerManager(){
@@ -141,6 +181,10 @@ export default class MainScene extends Phaser.Scene {
       this.player.setVelocityX(-200);
     }else if(this.right.isDown){
       this.player.setVelocityX(200);
+    }else if(this.left.isUp){
+      this.player.setVelocityX(0);
+    }else if(this.right.isUp){
+      this.player.setVelocityX(0);
     }
   }
 }
