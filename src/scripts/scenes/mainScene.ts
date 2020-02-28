@@ -26,7 +26,7 @@ export default class MainScene extends Phaser.Scene {
     this.ship3 = this.add.sprite(this.scale.width/2 + 50, this.scale.height/2, "ship3");
     this.explosion = this.add.sprite(0, 0, "explosion");
 
-    /*this.anims.create({
+    this.anims.create({
       key: "ship1_anim",
       frames: this.anims.generateFrameNumbers("ship", { start: 0, end: 1}),
       frameRate: 20,
@@ -54,7 +54,7 @@ export default class MainScene extends Phaser.Scene {
       repeat: 0,
       hideOnComplete: true
     });
-
+/*
     this.ship1.play("ship1_anim");
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
