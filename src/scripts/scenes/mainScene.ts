@@ -3,10 +3,10 @@ import TileSprite from '../objects/myTileSprite';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
-  ship1: ExampleObject;
-  ship2: ExampleObject;
-  ship3: ExampleObject;
-  private explosion: ExampleObject;
+  ship1: Phaser.GameObjects.Sprite;
+  ship2: Phaser.GameObjects.Sprite;
+  ship3: Phaser.GameObjects.Sprite;
+  //private explosion: ExampleObject;
   private background: TileSprite;
   
 
@@ -24,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
     this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
     this.ship2 = this.add.sprite(this.scale.width/2, this.scale.height/2, "ship2");
     this.ship3 = this.add.sprite(this.scale.width/2 + 50, this.scale.height/2, "ship3");
-    this.explosion = this.add.sprite(0, 0, "explosion");
+    //this.explosion = this.add.sprite(0, 0, "explosion");
 
     this.anims.create({
       key: "ship1_anim",
