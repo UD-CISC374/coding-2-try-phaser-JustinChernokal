@@ -28,21 +28,21 @@ export default class MainScene extends Phaser.Scene {
 
     this.anims.create({
       key: "ship1_anim",
-      frames: this.anims.generateFrameNumbers("ship", { start: 0, end: 1}),
+      frames: this.anims.generateFrameNumbers("ship", { start: 1, end: 2}),
       frameRate: 20,
       repeat: -1
     });
 
     this.anims.create({
       key: "ship2_anim",
-      frames: this.anims.generateFrameNumbers("ship2", { start: 0, end: 1}),
+      frames: this.anims.generateFrameNumbers("ship2", { start: 1, end: 2}),
       frameRate: 20,
       repeat: -1
     });
 
     this.anims.create({
       key: "ship3_anim",
-      frames: this.anims.generateFrameNumbers("ship3", { start: 0, end: 1}),
+      frames: this.anims.generateFrameNumbers("ship3", { start: 1, end: 2}),
       frameRate: 20,
       repeat: -1
     });
