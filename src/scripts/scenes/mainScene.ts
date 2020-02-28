@@ -31,14 +31,13 @@ export default class MainScene extends Phaser.Scene {
     this.exampleObject = new ExampleObject(this, 0, 0);
     this.background = this.add.tileSprite(0, 0, this.scale.width*2.1, this.scale.height*2 + 600  ,"background");
     
-
-    this.ship1 = this.physics.add.sprite(this.scale.width/2 - 50, this.scale.height, "mons");
+    this.ship1 = this.physics.add.sprite(this.scale.width/2 - 50, this.scale.height,"mons");
     this.ship2 = this.physics.add.sprite(this.scale.width/2, this.scale.height, "mons2");
     this.ship3 = this.physics.add.sprite(this.scale.width/2 + 50, this.scale.height, "mons3");
     //this.explosion = this.add.sprite(0, 0, "explosion");
 
 
-    /*animations
+    //animations
     this.anims.create({
       key: "ship1_anim",
       frames: this.anims.generateFrameNumbers("ship", {start: 0}),
@@ -79,7 +78,7 @@ export default class MainScene extends Phaser.Scene {
     //this.ship1.play("ship1_anim");
     //this.ship2.play("ship2_anim");
     //this.ship3.play("ship3_anim");
-    */
+    
 
     //TEXT-scorelabel
     //this.scorelabel = this.add.bitmapText(10, 5, "myfont", "score ", 16);
