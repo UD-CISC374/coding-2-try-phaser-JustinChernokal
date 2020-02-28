@@ -3,9 +3,9 @@ import TileSprite from '../objects/myTileSprite';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
-  private ship1: ExampleObject;
-  private ship2: ExampleObject;
-  private ship3: ExampleObject;
+  ship1: ExampleObject;
+  ship2: ExampleObject;
+  ship3: ExampleObject;
   private explosion: ExampleObject;
   private background: TileSprite;
   
