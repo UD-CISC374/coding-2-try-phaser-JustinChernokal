@@ -55,10 +55,11 @@ export default class MainScene extends Phaser.Scene {
       hideOnComplete: true
     });
 
+    /*
     this.ship1.play("ship1_anim", false, 0);
     this.ship2.play("ship2_anim", false, 0);
     this.ship3.play("ship3_anim", false, 0);
-
+*/
 
     this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
   }
