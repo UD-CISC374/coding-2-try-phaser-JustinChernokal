@@ -22,6 +22,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 16
     };
 
+    this.load.spritesheet("power-up", "assets/spritesheets/power-up.png",{
+      frameWidth: 16,
+      frameHeight: 16
+    });
+
   }
 
   create() {

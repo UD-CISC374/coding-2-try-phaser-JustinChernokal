@@ -6,6 +6,7 @@ export default class MainScene extends Phaser.Scene {
   ship1: Phaser.GameObjects.Sprite;
   ship2: Phaser.GameObjects.Sprite;
   ship3: Phaser.GameObjects.Sprite;
+  //powerUps: Phaser.GameObjects.Sprite;
   //private explosion: ExampleObject;
   private background: TileSprite;
   
@@ -62,6 +63,26 @@ export default class MainScene extends Phaser.Scene {
 
 
     this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
+  
+    
+    //Powerups
+    this.physics.world.setBoundsCollision();
+
+    //this.powerUps = this.physics.add.group();
+
+    var maxObjects = 4;
+    for (var i =0; i <= maxObjects; i++) {
+      var powerUp = this.physics.add.sprite(16,16,"power-up");
+     //this.powerUps.add(powerUp);
+        powerUp.setRandomPosition(0, 0, this.game.scale.width, this.game.scale.height);
+    
+      powerUp.setVelocity(100,100);
+      powerUp.setCollideWorldBounds(true);
+      powerUp.setBounce(1)
+;    }
+  
+  
+  
   }
 
   moveShip(ship, speed) {
