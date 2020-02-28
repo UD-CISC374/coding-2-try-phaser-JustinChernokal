@@ -27,6 +27,11 @@ export default class PreloadScene extends Phaser.Scene {
       frameHeight: 16
     });
 
+    this.load.spritesheet("player", "assets/spritesheet/ship.png",{
+      frameWidth: 8,
+      frameHeight: 8
+    });
+
   }
 
   create() {

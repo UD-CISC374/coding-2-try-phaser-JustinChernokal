@@ -1,11 +1,18 @@
 import ExampleObject from '../objects/exampleObject';
 import TileSprite from '../objects/myTileSprite';
+import { Input, LEFT } from 'phaser';
 
 export default class MainScene extends Phaser.Scene {
   private exampleObject: ExampleObject;
   ship1: Phaser.GameObjects.Sprite;
   ship2: Phaser.GameObjects.Sprite;
   ship3: Phaser.GameObjects.Sprite;
+  player: Phaser.Physics.Arcade.Sprite;
+  left: Input.Keyboard.Key;
+  right: Input.Keyboard.Key;
+  gamesSettings = {
+    playerSpeed: 200,
+  };
   //powerUps: Phaser.GameObjects.Sprite;
   //private explosion: ExampleObject;
   private background: TileSprite;
@@ -27,6 +34,8 @@ export default class MainScene extends Phaser.Scene {
     this.ship3 = this.add.sprite(this.scale.width/2 + 50, this.scale.height/2, "ship3");
     //this.explosion = this.add.sprite(0, 0, "explosion");
 
+
+    //animations
     this.anims.create({
       key: "ship1_anim",
       frames: this.anims.generateFrameNumbers("ship", {start: 0}),
@@ -56,6 +65,13 @@ export default class MainScene extends Phaser.Scene {
       hideOnComplete: true
     });
 
+    this.anims.create({
+      key: "thrust",
+      frames: this.anims.generateFrameNumbers("player", {}),
+      frameRate: 20,
+      repeat: -1
+    })
+
   
     //this.ship1.play("ship1_anim");
     //this.ship2.play("ship2_anim");
@@ -78,9 +94,20 @@ export default class MainScene extends Phaser.Scene {
     
       powerUp.setVelocity(100,100);
       powerUp.setCollideWorldBounds(true);
-      powerUp.setBounce(2)
-;    }
+      powerUp.setBounce(1);
+    }
   
+
+  
+    //Player
+    //this.player = this.physics.add.sprite(this.scale.width/2 - 8, this.scale.height - 64, "player");
+    this.player = this.physics.add.sprite(8,8,"player");
+    //this.player.play("thrust");
+    this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+    this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+    
+    this.player.setCollideWorldBounds(true);
+
   
   
   }
@@ -104,5 +131,16 @@ export default class MainScene extends Phaser.Scene {
     this.moveShip(this.ship3, 3);
 
     this.background.tilePositionY -= 0.5;
+
+    this.movePlayerManager();
+  }
+
+  movePlayerManager(){
+
+    if(this.left.isDown){
+      this.player.setVelocityX(-200);
+    }else if(this.right.isDown){
+      this.player.setVelocityX(200);
+    }
   }
 }
