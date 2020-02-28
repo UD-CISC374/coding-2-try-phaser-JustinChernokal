@@ -24,9 +24,9 @@ export default class MainScene extends Phaser.Scene {
     this.ship1 = this.add.sprite(this.scale.width/2 - 50, this.scale.height/2, "ship");
     this.ship2 = this.add.sprite(this.scale.width/2, this.scale.height/2, "ship2");
     this.ship3 = this.add.sprite(this.scale.width/2 + 50, this.scale.height/2, "ship3");
-    this.explosion = this.add.sprite(0, 0, "explosion");
+    //this.explosion = this.add.sprite(0, 0, "explosion");
 
-    this.anims.create({
+    /*this.anims.create({
       key: "ship1_anim",
       frames: this.anims.generateFrameNumbers("ship", { start: 0, end: 1}),
       frameRate: 20,
@@ -59,7 +59,7 @@ export default class MainScene extends Phaser.Scene {
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
 
-
+*/
     this.add.text(20, 20, "Playing game", {font: "25px Arial", fill: "yellow"});
   }
 
