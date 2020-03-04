@@ -9,6 +9,10 @@ https://opengameart.org/content/country-field
 Dragon Maniac & Friends sprites:
 https://opengameart.org/content/dragon-maniac-friends
 
+still sheep:
+https://opengameart.org/content/livestock-0
+
+
 *At least a URL, but also be sure to include any extra information that the artist/author requests you include.*
 
 sheep sprite:
