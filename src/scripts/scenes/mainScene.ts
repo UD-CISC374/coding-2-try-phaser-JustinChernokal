@@ -2,6 +2,7 @@ import ExampleObject from '../objects/exampleObject';
 import TileSprite from '../objects/myTileSprite';
 import Beam from '../objects/beam';
 import { Input, LEFT, Cameras } from 'phaser';
+import Explosion from '../objects/explosion';
 
 
 export default class MainScene extends Phaser.Scene {
@@ -22,6 +23,10 @@ export default class MainScene extends Phaser.Scene {
   projectiles: Phaser.Physics.Arcade.Group;
   score: number = 0; 
   scorelabel; 
+  beamSound;
+  explosionSound;
+  pickupSound;
+  music;
   private background: TileSprite;
   
 
@@ -53,17 +58,48 @@ export default class MainScene extends Phaser.Scene {
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
     
+    //TEXT GRAPHICS
+    var graphics = this.add.graphics();
+    graphics.fillStyle(0x000000, 1);
+    graphics.beginPath();
+    graphics.moveTo(0, 0);
+    graphics.lineTo(this.scale.width, 0);
+    graphics.lineTo(this.scale.width, 20);
+    graphics.lineTo(0, 20);
+    graphics.lineTo(0, 0);
+    graphics.closePath();
+    graphics.fillPath();
+
+    
+
 
     //TEXT-scorelabel
     this.score = 0;
-    console.log(this.score);
     this.scorelabel = this.add.bitmapText(10, 5, "myfont", "SCORE: " + this.score.toString(), 16);
     this.add.text(125, 5, "Avoid Falling Monsters!", {font: "15px Arial", fill: "red"});
   
+    //SOUNDS
     
-    //Powerups
-    
+    this.beamSound = this.sound.add("audio_beam");
+    this.explosionSound = this.sound.add("audio_explosion");
+    this.pickupSound = this.sound.add("audio_pickup");
 
+    this.music = this.sound.add("music");
+
+    var musicConfig = {
+      mute: false,
+      volume: 1,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0
+    }
+
+    this.music.play(musicConfig);
+
+
+    //Powerups
     this.powerUps = this.physics.add.group();
 
     var maxObjects = -1;
@@ -89,7 +125,6 @@ export default class MainScene extends Phaser.Scene {
 
     this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.projectiles = this.physics.add.group();
-    //this.projectiles.add(Beam)
 
     
 
@@ -99,22 +134,8 @@ export default class MainScene extends Phaser.Scene {
 
   this.physics.world.setBoundsCollision();
 
-  this.physics.add.collider(this.player, this.ship1, 
-    function(player, ship1){
-      player.setActive(false);
-      player.destroy();
-  });
-  this.physics.add.collider(this.player, this.ship2, 
-    function(player, ship2){
-      player.setActive(false);
-      player.destroy();
-  });
-  this.physics.add.collider(this.player, this.ship3, 
-    function(player, ship3){
-      player.setActive(false);
-      player.destroy();
-  }, undefined, this);
-
+  this.physics.add.collider(this.player, this.enemies, this.hurtPlayer,
+    undefined, this);
   /*
   this.physics.add.collider(this.ship3, this.projectiles);
   this.physics.add.collider(this.ship1, this.projectiles);
@@ -124,8 +145,6 @@ export default class MainScene extends Phaser.Scene {
     function( projectile, enemy){
       projectile.destroy();
     }, this);
-
-  //this.physics.add.collider(this.powerUps, this.player);
 
 
   this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp);
@@ -137,6 +156,7 @@ export default class MainScene extends Phaser.Scene {
 
   shootBeam(){
     let beam = new Beam(this);
+    this.beamSound.play();
   }
 
   pickPowerUp (player, powerUp){ 
@@ -145,12 +165,46 @@ export default class MainScene extends Phaser.Scene {
     }
 
   hitEnemies(projectile, enemy) {
+
+    var explosion = new Explosion(this, enemy.x, enemy.y);
+    this.explosionSound.play();
+
     this.resetShipPos(enemy);
     projectile.destroy();
-    this.score += 15;
-    this.scorelabel.text = "score " + this.score.toString();
-    console.log(this.score);
 
+    this.score += 15;
+    var scoreFormated = this.zeroPad(this.score, 0)
+    this.scorelabel.text = "SCORE: " + scoreFormated;
+
+  }
+
+  //ZERO PAD
+  zeroPad(number, size){
+    var stringNumber = String(number);
+    while(stringNumber.length < (size || 2)){
+      stringNumber = "0" + stringNumber;
+    }
+    return stringNumber;
+  }
+
+  hurtPlayer(player, enemy){
+    if( player.alpha == 1){
+      player.setActive(false);
+      player.disableBody(true, true);
+    }
+
+    /*
+    if(this.player.alpha < 1){
+      return;
+    }*/ 
+
+
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.resetPlayer,
+      callbackScope: this,
+      loop: false
+    });
   }
 
 
@@ -167,6 +221,23 @@ export default class MainScene extends Phaser.Scene {
     ship.y = 0;
     var randomX = Phaser.Math.Between(0, this.scale.width);
     ship.x = randomX;
+  }
+
+  resetPlayer(){
+    this.player.enableBody(true, this.scale.width/2 - 8, this.scale.height + 64, true, true);
+    this.player.alpha = 0.5;
+
+    var tween = this.tweens.add({
+      targets: this.player,
+      y: this.scale.height - 28,
+      ease: 'Power1',
+      duration: 1500,
+      repeat: 0,
+      onComplete: function(){
+        this.player.alpha = 1;
+      },
+      callbackScope: this
+    });
   }
 
   resetPowerups(powerUp){
