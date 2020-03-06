@@ -24,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
   explosionSound;
   pickupSound;
   music;
-  sheepBaa;
+  baaSound;
   private background: TileSprite;
   
 
@@ -93,7 +93,7 @@ export default class MainScene extends Phaser.Scene {
     this.beamSound = this.sound.add("audio_beam");
     this.explosionSound = this.sound.add("audio_explosion");
     this.pickupSound = this.sound.add("audio_pickup");
-    this.sheepBaa = this.sound.add("baa");
+    this.baaSound = this.sound.add("baa");
 
 
     this.music = this.sound.add("music");
@@ -173,7 +173,7 @@ export default class MainScene extends Phaser.Scene {
 
   shootBeam(){
     let beam = new Beam(this);
-    this.sheepBaa.play();
+    this.beamSound.play();
   }
 
   //unused powerup function

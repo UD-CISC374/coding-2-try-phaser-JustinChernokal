@@ -78,9 +78,9 @@ export default class PreloadScene extends Phaser.Scene {
     this.load.audio("audio_beam", ["assets/audio/beam.ogg", "assets/audio/beam.mp3"]);
     this.load.audio("audio_explosion", ["assets/audio/explosion.ogg", "assets/audio/explosion.mp3"]);
     this.load.audio("audio_pickup", ["assets/audio/pickup.ogg", "assets/audio/pickup.mp3"]);
-    this.load.audio("music", ["assets/audio/sci-fi_platformer12", "assets/audio/sci-fi_platformer12.mp3"]);
+    this.load.audio("music", ["assets/audio/sci-fi_platformer12.ogg", "assets/audio/sci-fi_platformer12.mp3"]);
 
-    this.load.audio("baa", "assets/audio/sheep_baaing.mp3");
+    this.load.audio("baa", "assets/audio/sheep-baaing.mp3");
 
   }
 
