@@ -23,6 +23,9 @@ const config: GameConfig = {
             debug: false,
             gravity: { y: 400 }
         }
+    },
+    render: {
+        pixelArt: true
     }
 };
 

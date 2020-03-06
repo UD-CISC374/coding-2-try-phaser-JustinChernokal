@@ -66,8 +66,8 @@ export default class PreloadScene extends Phaser.Scene {
     });
 
     this.load.spritesheet("beam", "assets/images/boomerang.png", {
-      frameWidth: 16,
-      frameHeight: 16
+      frameWidth: 31,
+      frameHeight: 30
     });
 
   }
@@ -148,7 +148,7 @@ export default class PreloadScene extends Phaser.Scene {
 
     this.anims.create({
       key: "beam_anim",
-      frames: this.anims.generateFrameNumbers("beams", {start:0}),
+      frames: this.anims.generateFrameNumbers("beam", {start: 0}),
       frameRate: 20,
       repeat: -1
     });
