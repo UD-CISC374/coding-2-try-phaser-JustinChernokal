@@ -93,7 +93,7 @@ export default class MainScene extends Phaser.Scene {
     this.beamSound = this.sound.add("audio_beam");
     this.explosionSound = this.sound.add("audio_explosion");
     this.pickupSound = this.sound.add("audio_pickup");
-    this.baaSound = this.sound.add("baa");
+    this.baaSound = this.sound.add("audio_sheep");
 
 
     this.music = this.sound.add("music");
@@ -173,7 +173,21 @@ export default class MainScene extends Phaser.Scene {
 
   shootBeam(){
     let beam = new Beam(this);
-    this.beamSound.play();
+
+
+    var hitConfig ={
+      mute: false,
+      volume: 3,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0
+    }
+
+
+    this.beamSound.play(hitConfig);
+
   }
 
   //unused powerup function
@@ -188,8 +202,17 @@ export default class MainScene extends Phaser.Scene {
     var explosion = new Explosion(this, enemy.x, enemy.y);
     this.explosionSound.play();
 
-    this.resetShipPos(enemy);
-    projectile.destroy();
+    //this.resetShipPos(enemy);
+    //projectile.destroy();
+
+    var sign = 1;
+
+    if (Math.random() > 0.5){
+      sign = -1;
+    }
+  
+
+    enemy.setVelocityX(Math.random() * 2500 * sign);
 
     this.score += 15;
     var scoreFormated = this.zeroPad(this.score, 4)
@@ -207,6 +230,18 @@ export default class MainScene extends Phaser.Scene {
       return;
     } 
 
+    var baaConfig ={
+      mute: false,
+      volume: 3,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: false,
+      delay: 0
+    }
+
+    this.baaSound.play(baaConfig);
+
 
     this.time.addEvent({
       delay: 1000,
@@ -222,6 +257,7 @@ export default class MainScene extends Phaser.Scene {
     if (ship.y > this.scale.height) {
       this.resetShipPos(ship);
       ship.setVelocityY(0);
+      ship.setVelocityX(0);
     }
   }
 

@@ -12,12 +12,12 @@ export default class Beam extends Phaser.GameObjects.Sprite{
 
         this.play("beam_anim");
         scene.physics.world.enableBody(this);
-        this.body.velocity.y = -500;
+        this.body.velocity.y = -400;
     }
 
     update(){
 
-        if(this.y <= 100){
+        if(this.y >= 385){
             this.destroy();
         }
     }
