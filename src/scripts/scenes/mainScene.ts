@@ -15,9 +15,6 @@ export default class MainScene extends Phaser.Scene {
   left: Input.Keyboard.Key;
   right: Input.Keyboard.Key;
   space: Input.Keyboard.Key;
-  gamesSettings = {
-    playerSpeed: 200,
-  };
   powerUps: Phaser.Physics.Arcade.Group;
   enemies: Phaser.Physics.Arcade.Group;
   projectiles: Phaser.Physics.Arcade.Group;
@@ -27,6 +24,7 @@ export default class MainScene extends Phaser.Scene {
   explosionSound;
   pickupSound;
   music;
+  sheepBaa;
   private background: TileSprite;
   
 
@@ -36,29 +34,35 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     
-
+    /* BACKGROUND IMAGES & SPRITES */
     this.background = this.add.tileSprite(0, 0, this.scale.width*2, this.scale.height*2 + 450,"background");
     
 
-    //ENEMIES
+    /* Enemies */
+    //Emeny Implementation 
     this.ship1 = this.physics.add.sprite(this.scale.width/2 - 50, this.scale.height,"mons");
     this.ship2 = this.physics.add.sprite(this.scale.width/2, this.scale.height, "mons2");
     this.ship3 = this.physics.add.sprite(this.scale.width/2 + 50, this.scale.height, "mons3");
-    //this.explosion = this.add.sprite(0, 0, "explosion");
+
+    //Enemy Scale
     this.ship1.setScale(1.5);
     this.ship2.setScale(1.5);
     this.ship3.setScale(0.75);
 
+    //Enemy Grouping
     this.enemies = this.physics.add.group();
     this.enemies.add(this.ship1);
     this.enemies.add(this.ship2);
     this.enemies.add(this.ship3);
 
+    //Enemy Anims
     this.ship1.play("ship1_anim");
     this.ship2.play("ship2_anim");
     this.ship3.play("ship3_anim");
     
-    //TEXT GRAPHICS
+    /* TEXT GRAPHICS & REPRESENTATION */
+
+    //Black box top of screen
     var graphics = this.add.graphics();
     graphics.fillStyle(0x000000, 1);
     graphics.beginPath();
@@ -73,16 +77,24 @@ export default class MainScene extends Phaser.Scene {
     
 
 
-    //TEXT-scorelabel
+    //Score and score label
     this.score = 0;
-    this.scorelabel = this.add.bitmapText(10, 5, "myfont", "SCORE: " + this.score.toString(), 16);
-    this.add.text(125, 5, "Avoid Falling Monsters!", {font: "15px Arial", fill: "red"});
+    var scoreFormated = this.zeroPad(this.score, 4)
+    this.scorelabel = this.add.bitmapText(10, 5, "myfont", "SCORE: " + scoreFormated, 16);
+
+    //Text labels
+    this.add.text(120, 2, "Avoid Falling Monsters!", {font: "15px Arial", fill: "red"});
+    this.add.text(290, 5, "Press SPACE to shoot", {font: "10px Arial", fill: "white"})
   
-    //SOUNDS
-    
+
+    /* AUDIO */
+
+    //sound implementation
     this.beamSound = this.sound.add("audio_beam");
     this.explosionSound = this.sound.add("audio_explosion");
     this.pickupSound = this.sound.add("audio_pickup");
+    this.sheepBaa = this.sound.add("baa");
+
 
     this.music = this.sound.add("music");
 
@@ -98,7 +110,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.music.play(musicConfig);
 
-
+    /* UNUSED */
     //Powerups
     this.powerUps = this.physics.add.group();
 
@@ -115,9 +127,12 @@ export default class MainScene extends Phaser.Scene {
   
 
   
-    //Player
+    /* PLAYER */
+
+    //player implementation
     this.player = this.physics.add.sprite(this.scale.width/2 - 8, this.scale.height - 64, "SheepStill")
 
+    //player physics & controller
     this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     this.player.setCollideWorldBounds(true);
@@ -130,39 +145,43 @@ export default class MainScene extends Phaser.Scene {
 
 
 
-  //Collision
+  /* COLLISION */
 
+  //World collision implementation
   this.physics.world.setBoundsCollision();
 
+  //Enemies hurt player collision
   this.physics.add.collider(this.player, this.enemies, this.hurtPlayer,
     undefined, this);
-  /*
-  this.physics.add.collider(this.ship3, this.projectiles);
-  this.physics.add.collider(this.ship1, this.projectiles);
-  this.physics.add.collider(this.ship2, this.projectiles);
-  */
+ 
+  //Projectiles hit enemies collison
   this.physics.add.collider(this.projectiles, this.enemies, this.hitEnemies, 
     function( projectile, enemy){
       projectile.destroy();
     }, this);
 
-
+  //Unused powerup collision with player
   this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp);
 
   }
 
+  
+  /* FUNCTIONS */
 
-  // Movement & Collison Functions
+
+  // Movement & Collison Functions //
 
   shootBeam(){
     let beam = new Beam(this);
-    this.beamSound.play();
+    this.sheepBaa.play();
   }
 
+  //unused powerup function
   pickPowerUp (player, powerUp){ 
     //this.resetPowerups(powerUp);
     powerUp.disableBody(true, true);
     }
+
 
   hitEnemies(projectile, enemy) {
 
@@ -173,18 +192,9 @@ export default class MainScene extends Phaser.Scene {
     projectile.destroy();
 
     this.score += 15;
-    var scoreFormated = this.zeroPad(this.score, 0)
+    var scoreFormated = this.zeroPad(this.score, 4)
     this.scorelabel.text = "SCORE: " + scoreFormated;
 
-  }
-
-  //ZERO PAD
-  zeroPad(number, size){
-    var stringNumber = String(number);
-    while(stringNumber.length < (size || 2)){
-      stringNumber = "0" + stringNumber;
-    }
-    return stringNumber;
   }
 
   hurtPlayer(player, enemy){
@@ -193,10 +203,9 @@ export default class MainScene extends Phaser.Scene {
       player.disableBody(true, true);
     }
 
-    /*
     if(this.player.alpha < 1){
       return;
-    }*/ 
+    } 
 
 
     this.time.addEvent({
@@ -216,7 +225,38 @@ export default class MainScene extends Phaser.Scene {
     }
   }
 
-  //RESET functions
+
+  movePlayerManager(){
+
+    if(this.left.isDown){
+      this.player.setVelocityX(-200);
+      this.player.anims.play('left', true);
+    }else if(this.right.isDown){
+      this.player.setVelocityX(200);
+      this.player.anims.play('right', true);
+    }else if(this.left.isUp){
+      this.player.setVelocityX(0);
+      this.player.anims.play('leftTurn', true);
+    }else if(this.right.isUp){
+      this.player.setVelocityX(0);
+      this.player.anims.play('leftTurn', true);
+    }
+  }
+
+  /* TEXT FUNCTIONS */
+
+  //zero pad
+  zeroPad(number, size){
+    var stringNumber = String(number);
+    while(stringNumber.length < (size || 2)){
+      stringNumber = "0" + stringNumber;
+    }
+    return stringNumber;
+  }
+
+
+  /* RESET FUNCTIONS */
+
   resetShipPos(ship){
     ship.y = 0;
     var randomX = Phaser.Math.Between(0, this.scale.width);
@@ -227,19 +267,27 @@ export default class MainScene extends Phaser.Scene {
     this.player.enableBody(true, this.scale.width/2 - 8, this.scale.height + 64, true, true);
     this.player.alpha = 0.5;
 
+
+    /*this.score -= 50;
+    var scoreFormated = this.zeroPad(this.score, 3)
+    this.scorelabel.text = "SCORE: " + scoreFormated;*/
+
+
     var tween = this.tweens.add({
       targets: this.player,
       y: this.scale.height - 28,
       ease: 'Power1',
       duration: 1500,
       repeat: 0,
-      onComplete: function(){
+      onComplete: () => {
         this.player.alpha = 1;
       },
       callbackScope: this
     });
   }
 
+
+  //unused powerup reset
   resetPowerups(powerUp){
     powerUp.y = 0;
     var randomX = Phaser.Math.Between(0, this.scale.width);
@@ -247,7 +295,8 @@ export default class MainScene extends Phaser.Scene {
   }
 
 
-  //UPDATE
+  /* UPDATE FUNCTION */
+
   update() {
     this.moveShip(this.ship1, 1);
     this.moveShip(this.ship2, 2);
@@ -271,21 +320,5 @@ export default class MainScene extends Phaser.Scene {
 
   }
 
-  movePlayerManager(){
 
-
-    if(this.left.isDown){
-      this.player.setVelocityX(-200);
-      this.player.anims.play('left', true);
-    }else if(this.right.isDown){
-      this.player.setVelocityX(200);
-      this.player.anims.play('right', true);
-    }else if(this.left.isUp){
-      this.player.setVelocityX(0);
-      this.player.anims.play('leftTurn', true);
-    }else if(this.right.isUp){
-      this.player.setVelocityX(0);
-      this.player.anims.play('leftTurn', true);
-    }
-  }
 }

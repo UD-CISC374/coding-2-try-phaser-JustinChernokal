@@ -12,6 +12,9 @@ https://opengameart.org/content/dragon-maniac-friends
 still sheep:
 https://opengameart.org/content/livestock-0
 
+boomerang sprite:
+https://opengameart.org/content/boomerang-bullet
+
 
 *At least a URL, but also be sure to include any extra information that the artist/author requests you include.*
 
@@ -30,3 +33,5 @@ The dragon looks quite similar to the disney character, but ultimately they are 
 Copyright/Attribution Notice: 
 Spring
 
+bommerang sprite:
+Created with Synfig, the Gimp, and Napoleon's Spritesheet Editor. source included.
